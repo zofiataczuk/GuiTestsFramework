@@ -16,9 +16,12 @@ public class BasePage extends BrowserSettings {
   private static final int POLLING = 100;
 
   private WebDriverWait wait;
+  protected WebDriver driver;
 
-  public BasePage () {
-    TestProperties.getInstance();
+
+  public BasePage (WebDriver driver) {
+    this.driver = driver;
+    this.wait = new WebDriverWait(driver, 10);
   }
 
   protected void waitForElementToAppear (By locator) {
@@ -32,4 +35,6 @@ public class BasePage extends BrowserSettings {
   protected void waitForTextToDisappear (By locator, String text) {
     wait.until(ExpectedConditions.not(ExpectedConditions.textToBe(locator, text)));
   }
+
+
 }

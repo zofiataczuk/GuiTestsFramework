@@ -14,8 +14,6 @@ public class TestProperties extends PropertiesBase {
 
   }
 
-
-
   private static void build() {
 
     INSTANCE = new TestProperties();

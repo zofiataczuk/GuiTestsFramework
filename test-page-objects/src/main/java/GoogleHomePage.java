@@ -1,21 +1,28 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 
 
 import java.io.IOException;
 
 public class GoogleHomePage extends BasePage {
 
-  public static final String GOOGLE_IMG_XPATH = "/html/body/div[1]/div[2]/div/img"; //constant variable bo uppercase, kiedy constant? kiedy static final?
+  public static final String GOOGLE_IMG_XPATH = "/html/body/div[1]/div[2]/div/img";
+  public static final String SEARCH_INPUT_XPATH = "//input[@title=\"Szukaj\"]";
+  public static final String AGREE_BUTTON_XPATH = "//*[contains(text(),\"Zgadzam się\")]";
+  //public static final String SEARCH_BUTTON_XPATH = "//input[@name=\"btnK\"]";
+  public static final String SEARCH_BUTTON_XPATH = "/html/body/div[1]/div[3]/form/div[1]/div[1]/div[3]/center/input[1]";
 
- public GoogleHomePage() {
-   }
+  public GoogleHomePage(WebDriver driver) {
+    super(driver);
+  }
 
-  public void verifyThatGoogleImgIsPresent() {
-    try {
-      getDriver(TestProperties.getBrowser());
-      waitForElementToAppear(By.xpath(GOOGLE_IMG_XPATH));
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+  public GoogleSearchResultPage searchInGoogle(String text) {
+    driver.findElement(By.xpath(AGREE_BUTTON_XPATH))
+      .click();
+    waitForElementToAppear(By.xpath(SEARCH_INPUT_XPATH));
+    driver.findElement(By.xpath(SEARCH_INPUT_XPATH)).sendKeys(text);
+    driver.findElement(By.xpath(SEARCH_BUTTON_XPATH)).click();
+    return new GoogleSearchResultPage(driver);
+
   }
 }

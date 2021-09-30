@@ -4,9 +4,12 @@ import org.testng.annotations.Test;
 public class GoogleHomePageTests extends BaseTest {
 
   @Test
-  public void homePageTests() {
+  public void searchInGoogleTest() {
 
-    GoogleHomePage googleHomePage = new GoogleHomePage(); //to jest inicjalizacja drajera ?
-    //czemu getDriver jest w
+    GoogleHomePage googleHomePage = new GoogleHomePage(getDriver());
+    googleHomePage.searchInGoogle("kapusta")
+      .verifyThatSearchResultContainsText("Kapusta – Wikipedia, wolna encyklopedia");
   }
+
+
 }
