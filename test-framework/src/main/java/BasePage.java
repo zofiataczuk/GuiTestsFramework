@@ -10,7 +10,7 @@ import org.testng.annotations.BeforeMethod;
 import java.io.IOException;
 import java.lang.reflect.Method;
 
-public class BasePage extends BrowserSettings {
+public class BasePage{
 
   private static final int TIMEOUT = 5;
   private static final int POLLING = 100;

@@ -9,21 +9,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class BaseTest extends BrowserSettings {
+public class BaseTest {
 
   private WebDriver driver;
 
   @BeforeMethod(timeOut = 120000, alwaysRun = true)
   public void beforeTestMethod() {
-    /*try {
-      driver = getDriver(TestProperties.getBrowser());
-      goToStartPage(TestProperties.getUrlToTest());
-    } catch (IOException e) {
-      e.printStackTrace();
-    }*/
-  }
 
-  ;
+  }
 
   @AfterMethod(timeOut = 30000)
   public void afterTestMethod() {
@@ -38,22 +31,22 @@ public class BaseTest extends BrowserSettings {
 
   @BeforeSuite
   public void beforeSuite() {
-    System.setProperty("headless", "false");
+    System.setProperty("headless", PropertiesReader.getInstance().getHeadless());
     String headless = System.getProperty("headless");
+    ChromeOptions chromeOptions = new ChromeOptions();
+    Map prefs = new HashMap();
+    prefs.put("profile.default_content_settings.cookies", 2);
+    chromeOptions.setExperimentalOption("prefs", prefs);
 
     ChromeDriverManager.chromedriver().setup();
     if ("true".equals(headless)) {     //(headless.equals(true)) - nie moze byc tak?
-      ChromeOptions chromeOptions = new ChromeOptions();
+
       chromeOptions.addArguments("--headless");
       driver = new ChromeDriver(chromeOptions);
     } else {
-      Map prefs = new HashMap();
-      prefs.put("profile.default_content_settings.cookies", 2);
-      ChromeOptions options = new ChromeOptions();
-      options.setExperimentalOption("prefs", prefs);
-      driver = new ChromeDriver(options);
+      driver = new ChromeDriver(chromeOptions);
     }
-    driver.get("https://www.google.com/");
+    driver.get(PropertiesReader.getInstance().getUrl());
     driver.manage().window().maximize();
   }
 

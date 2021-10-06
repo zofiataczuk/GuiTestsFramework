@@ -23,6 +23,5 @@ public class GoogleHomePage extends BasePage {
     driver.findElement(By.xpath(SEARCH_INPUT_XPATH)).sendKeys(text);
     driver.findElement(By.xpath(SEARCH_BUTTON_XPATH)).click();
     return new GoogleSearchResultPage(driver);
-
   }
 }

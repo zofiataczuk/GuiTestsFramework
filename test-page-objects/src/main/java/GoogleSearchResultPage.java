@@ -9,22 +9,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class GoogleSearchResultPage extends BasePage {
 
-  private static final String SEARCH_RESULT_LIST_CSS = ".r";
+  private final static String SEARCH_RESULT_1ST_POSITION_XPATH =
+    "//*[@id=\"rso\"]/div[1]/div/div/div[1]/a/h3"; // jak to inaczej?
+
 
   public GoogleSearchResultPage(WebDriver driver) {
     super(driver);
   }
 
   public GoogleSearchResultPage verifyThatSearchResultContainsText(String resultText) {
-    List<WebElement> searchResults = driver.findElements(By.cssSelector(SEARCH_RESULT_LIST_CSS));
+    String expectedSearchResult = driver.findElement(By.xpath(SEARCH_RESULT_1ST_POSITION_XPATH))
+      .getText();
 
-    String expectedResult = searchResults.stream()
-      .filter(f -> f.getText()
-        .contains(resultText))
-      .collect(Collectors.toList())
-      .get(0).getText();
-
-    assertThat(expectedResult).as("Search result is not correct").isEqualTo(resultText);
+    assertThat(expectedSearchResult).as("Search result is not correct")
+      .isEqualTo(resultText);
     return this;
   }
 }
