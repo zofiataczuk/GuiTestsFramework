@@ -8,7 +8,6 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="test-configuration" />
-        <module name="test-domain" />
       </profile>
       <profile name="Annotation profile for TestFramework" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -17,6 +16,7 @@
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.20/lombok-1.18.20.jar" />
         </processorPath>
+        <module name="test-domain" />
         <module name="test-framework" />
         <module name="test-page-objects" />
         <module name="test-regression-tests" />

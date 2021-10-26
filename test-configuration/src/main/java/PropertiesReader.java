@@ -1,4 +1,6 @@
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Properties;
 
 public class PropertiesReader {
@@ -7,25 +9,15 @@ public class PropertiesReader {
   private final static String URL = "url.to.test";
   private final static String HEADLESS = "headless";
   private final static String BROWSER = "browser";
-  private static PropertiesReader instance = null;
   private Properties properties;
 
+
   public PropertiesReader() {
-  }
-
-  public static PropertiesReader getInstance() {
-    if (instance == null) {
-      instance = new PropertiesReader();
-      instance.loadPropertiesData();
-    }
-    return instance;
-  }
-
-
-  private void loadPropertiesData() {
     properties = new Properties();
     try {
-      FileInputStream inputStream = new FileInputStream(PROPERTIES_FILE_PATH);
+      FileInputStream inputStream = new FileInputStream(this.getClass()
+        .getResource(PROPERTIES_FILE_PATH)
+        .getPath());
       try {
         properties.load(inputStream);
       } catch (IOException e) {

@@ -4,14 +4,17 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.*;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-
-public class BaseTest {
+public class BaseTest extends TestDataProvider{
 
   private WebDriver driver;
+  private PropertiesReader propertiesReader;
+
+  public BaseTest() {
+    this.propertiesReader = new PropertiesReader();
+  }
 
   @BeforeMethod(timeOut = 120000, alwaysRun = true)
   public void beforeTestMethod() {
@@ -27,18 +30,17 @@ public class BaseTest {
     driver.get(url);
   }
 
-
-
   @BeforeSuite
   public void beforeSuite() {
-    System.setProperty("headless", PropertiesReader.getInstance().getHeadless());
+    System.setProperty("headless", propertiesReader.getHeadless());
     String headless = System.getProperty("headless");
     ChromeOptions chromeOptions = new ChromeOptions();
     Map prefs = new HashMap();
     prefs.put("profile.default_content_settings.cookies", 2);
     chromeOptions.setExperimentalOption("prefs", prefs);
 
-    ChromeDriverManager.chromedriver().setup();
+    ChromeDriverManager.chromedriver()
+      .setup();
     if ("true".equals(headless)) {     //(headless.equals(true)) - nie moze byc tak?
 
       chromeOptions.addArguments("--headless");
@@ -46,8 +48,11 @@ public class BaseTest {
     } else {
       driver = new ChromeDriver(chromeOptions);
     }
-    driver.get(PropertiesReader.getInstance().getUrl());
-    driver.manage().window().maximize();
+    driver.get(propertiesReader
+      .getUrl());
+    driver.manage()
+      .window()
+      .maximize();
   }
 
   @AfterSuite
